@@ -1,0 +1,14 @@
+[project]
+name = "todo-app-phase1"
+version = "1.0.0"
+description = "Todo CLI Core - Phase I command-line task management application"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = []
