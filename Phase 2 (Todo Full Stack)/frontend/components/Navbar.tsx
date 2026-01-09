@@ -9,12 +9,12 @@ import { LogoutButton } from '@/components/auth/LogoutButton';
  */
 export function Navbar() {
   return (
-    <nav className="bg-white border-b border-gray-200 shadow-sm">
+    <nav className="bg-surface border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link
             href="/dashboard"
-            className="text-xl font-bold text-gray-900 hover:text-primary-600 transition-colors"
+            className="text-xl font-bold text-text-primary hover:text-primary-600 transition-colors"
           >
             Hackathon Todo
           </Link>

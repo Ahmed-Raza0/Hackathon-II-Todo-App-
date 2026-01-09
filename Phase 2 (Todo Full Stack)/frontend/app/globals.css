@@ -1,19 +1,67 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary Indigo Colors */
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #e0eaff;
+  --color-primary-200: #c7d5ff;
+  --color-primary-300: #a4b8ff;
+  --color-primary-400: #7d96ff;
+  --color-primary-500: #5b78f6; /* Default primary */
+  --color-primary-600: #3a56e9;
+  --color-primary-700: #2a42d1;
+  --color-primary-800: #2134a6;
+  --color-primary-900: #1d2d85;
 
-  /* Custom colors for todo app */
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --error: #ef4444;
-  --success: #10b981;
-  --muted: #6b7280;
+  /* Secondary Slate Colors */
+  --color-secondary-50: #f8fafc;
+  --color-secondary-100: #f1f5f9;
+  --color-secondary-200: #e2e8f0;
+  --color-secondary-300: #cbd5e1;
+  --color-secondary-400: #94a3b8;
+  --color-secondary-500: #64748b; /* Default secondary */
+  --color-secondary-600: #475569;
+  --color-secondary-700: #334155;
+  --color-secondary-800: #1e293b;
+  --color-secondary-900: #0f172a;
+
+  /* Background Colors */
+  --color-background: #f9fafb; /* Off-white */
+  --color-surface: #ffffff; /* Clean white for cards */
+  --foreground: #171717; /* Keep original foreground */
+
+  /* Status Colors */
+  --color-success: #10b981; /* Muted green */
+  --color-warning: #f59e0b; /* Soft amber */
+  --color-error: #ef4444; /* Muted red */
+
+  /* Text Colors */
+  --color-text-primary: #111827; /* Near-black charcoal */
+  --color-text-secondary: #6b7280; /* Neutral gray */
+  --color-text-disabled: #9ca3af; /* Light gray */
+
+  /* Border Colors */
+  --color-border: #e5e7eb; /* Soft neutral gray */
+
+  /* Refined Hero Section Colors */
+  --color-hero-title: hsl(210, 10%, 95%); /* High-contrast near-white for hero title */
+  --color-hero-subtitle: hsl(210, 10%, 65%); /* Lighter gray for subtitle */
+  --color-primary-cta-bg: hsl(220, 70%, 50%); /* Vibrant blue for primary CTA */
+  --color-secondary-cta-text: hsl(215, 15%, 50%); /* Muted slate for secondary CTA */
+
+  /* Refined Feature Card Colors */
+  --color-card-bg: hsl(0, 0%, 98%); /* Slightly tinted light surface */
+  --color-card-heading: hsl(220, 10%, 15%); /* Near-black for card headings */
+  --color-card-body: hsl(220, 8%, 40%); /* Neutral gray for card body text */
+  --color-card-icon: hsl(215, 15%, 45%); /* Secondary slate for icons */
+
+  /* Refined Background Colors */
+  --color-page-bg-start: hsl(220, 10%, 10%); /* Dark background gradient start */
+  --color-page-bg-end: hsl(220, 10%, 15%); /* Dark background gradient end */
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --color-background: var(--color-background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -21,13 +69,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --color-background: #0a0a0a;
     --foreground: #ededed;
   }
 }
 
 body {
-  background: var(--background);
+  background: var(--color-background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }

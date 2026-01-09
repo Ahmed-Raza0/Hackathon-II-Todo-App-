@@ -105,7 +105,7 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+    <div className="bg-surface rounded-lg p-4 shadow-sm border border-border hover:shadow-md transition-shadow">
       <div className="flex items-center gap-3">
         {/* Checkbox */}
         <button
@@ -115,7 +115,7 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
             'flex-shrink-0 h-5 w-5 rounded border-2 transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
             task.completed
               ? 'bg-primary-600 border-primary-600'
-              : 'border-gray-300 hover:border-primary-500',
+              : 'border-border hover:border-primary-500',
             isToggling && 'opacity-50 cursor-not-allowed'
           )}
           aria-label={task.completed ? 'Mark as incomplete' : 'Mark as complete'}
@@ -145,7 +145,7 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
                 type="text"
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
-                className="w-full px-3 py-2 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 text-base border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     handleSaveEdit();
@@ -165,7 +165,7 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
                 </button>
                 <button
                   onClick={handleCancelEdit}
-                  className="px-3 py-1.5 bg-gray-200 text-gray-900 text-sm rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1"
+                  className="px-3 py-1.5 bg-secondary-100 text-text-primary text-sm rounded-lg hover:bg-secondary-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-1"
                 >
                   Cancel
                 </button>
@@ -178,13 +178,13 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
                   className={cn(
                     'text-base font-medium break-words',
                     task.completed
-                      ? 'line-through text-gray-400'
-                      : 'text-gray-900'
+                      ? 'line-through text-text-secondary opacity-70'
+                      : 'text-text-primary'
                   )}
                 >
                   {task.title}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-text-secondary mt-1">
                   {formatDate(task.createdAt)}
                 </p>
               </div>
@@ -193,7 +193,7 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
                 {/* Edit button */}
                 <button
                   onClick={handleEdit}
-                  className="flex-shrink-0 p-2 text-gray-400 hover:text-primary-600 rounded-lg hover:bg-primary-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                  className="flex-shrink-0 p-2 text-text-secondary hover:text-primary-600 rounded-lg hover:bg-primary-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                   aria-label="Edit task"
                 >
                   <svg
@@ -215,7 +215,7 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
                   disabled={isDeleting}
-                  className="flex-shrink-0 p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-shrink-0 p-2 text-text-secondary hover:text-error rounded-lg hover:bg-error/10 transition-colors focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label="Delete task"
                 >
                   <svg
@@ -241,25 +241,25 @@ export function TaskCard({ task, onToggle, onDelete, onEdit }: TaskCardProps) {
       {/* Delete confirmation dialog */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-sm w-full p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <div className="bg-surface rounded-lg shadow-xl max-w-sm w-full p-6">
+            <h3 className="text-lg font-semibold text-text-primary mb-2">
               Delete Task?
             </h3>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-text-secondary mb-6">
               Are you sure you want to delete "{task.title}"? This action cannot be undone.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={isDeleting}
-                className="flex-1 px-4 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-secondary-100 text-text-primary rounded-lg hover:bg-secondary-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-error text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2 transition-colors disabled:opacity-50"
               >
                 {isDeleting ? 'Deleting...' : 'Delete'}
               </button>

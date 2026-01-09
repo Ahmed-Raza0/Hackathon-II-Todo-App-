@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks\")",
+      "Bash(dir \"specs/001-color-system/checklists/\" /B)",
+      "Bash(dir frontend /s)",
+      "Bash(git fetch --all --prune)",
+      "Bash(ls -1d specs/*-color-refinement)",
+      "Bash(ls -1d specs/*-ui-color-fix)",
+      "Bash(ls -1d specs/*-visual-hierarchy)",
+      "Bash(powershell.exe -Command \".specify/scripts/powershell/create-new-feature.ps1 -Number 2 -ShortName ''color-refinement''\")",
+      "Bash(powershell.exe -Command \".specify/scripts/powershell/create-new-feature.ps1 -ShortName ''color-refinement'' -Json ''REFINE the EXISTING COLOR SYSTEM of the implemented UI to fix contrast, emphasis, and hierarchy issues''\")",
+      "Bash(powershell.exe -Command \".specify/scripts/powershell/create-new-feature.ps1 -Json -ShortName ''color-refinement'' ''REFINE the EXISTING COLOR SYSTEM of the implemented UI to fix contrast, emphasis, and hierarchy issues''\")",
+      "Bash(git checkout -b 002-color-refinement)",
+      "Bash(powershell.exe -Command \".specify/scripts/powershell/setup-plan.ps1 -Json\")",
+      "Bash(dir \".specify/templates/\" /B)",
+      "Bash(powershell.exe -Command \"Copy-Item -Path ''.specify/templates/plan-template.md'' -Destination ''specs/002-color-refinement/plan.md''\")",
+      "Bash(powershell.exe -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json\")",
+      "Bash(dir \"specs/002-color-refinement/checklists/\" /B)",
+      "Bash(dir \"specs/002-color-refinement/contracts/\" /B)",
+      "Bash(.specify/scripts/powershell/setup-plan.ps1 -Json)",
+      "Bash(.specify/scripts/powershell/update-agent-context.ps1 -AgentType claude)"
+    ]
+  }
+}
