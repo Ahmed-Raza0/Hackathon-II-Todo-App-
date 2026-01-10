@@ -19,7 +19,8 @@
       "Bash(dir \"specs/002-color-refinement/checklists/\" /B)",
       "Bash(dir \"specs/002-color-refinement/contracts/\" /B)",
       "Bash(.specify/scripts/powershell/setup-plan.ps1 -Json)",
-      "Bash(.specify/scripts/powershell/update-agent-context.ps1 -AgentType claude)"
+      "Bash(.specify/scripts/powershell/update-agent-context.ps1 -AgentType claude)",
+      "Bash(type \"D:\\\\Hackathon II \\(Todo App\\)\\\\specs\\\\001-frontend-fixes\\\\plan.md\")"
     ]
   }
 }
