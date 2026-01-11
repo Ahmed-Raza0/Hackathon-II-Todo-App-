@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-Phase 2/backend/
+backend/
 __pycache__/
 *.pyc
 .venv/
