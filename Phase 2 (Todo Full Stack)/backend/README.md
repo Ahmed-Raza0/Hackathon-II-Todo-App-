@@ -1,6 +1,17 @@
+---
+title: "Todo App Backend"
+emoji: "📝"
+colorFrom: "blue"
+colorTo: "green"
+sdk: "docker"
+sdk_version: "latest"
+app_file: "src/main.py"
+pinned: false
+---
+
 # Todo Backend API
 
-A secure, production-ready backend for the Todo Full-Stack Web Application using Python FastAPI with JWT authentication and Neon Serverless PostgreSQL.
+A secure, production-ready backend for the Todo Full-Stack Web Application using Python FastAPI with JWT authentication and automatic database fallback. Supports PostgreSQL for local development and SQLite for Hugging Face Spaces deployment.
 
 ## Features
 
@@ -12,6 +23,8 @@ A secure, production-ready backend for the Todo Full-Stack Web Application using
 - Status filtering capability
 - Structured JSON error responses
 - Comprehensive error handling
+- Automatic database fallback - uses PostgreSQL when available, falls back to SQLite when not
+- Hugging Face Spaces ready - properly configured for container deployment
 
 ## Tech Stack
 
@@ -97,7 +110,22 @@ docker-compose up --build
 
 The API will be available at `http://localhost:8000`.
 
+## Hugging Face Spaces Deployment
+
+This application is configured for deployment on Hugging Face Spaces using the Docker SDK. The application will automatically use SQLite when deployed to Hugging Face Spaces, and PostgreSQL when a DATABASE_URL is provided.
+
+To deploy to Hugging Face Spaces:
+1. Push this repository to your Hugging Face Space
+2. Set the Space SDK to "Docker"
+3. The application will build and run automatically on port 7860
+
 ## Health Check
+
+Check the health of the application at:
+
+## Database Configuration
+
+This application features automatic database fallback from PostgreSQL (for local development) to SQLite (for Hugging Face Spaces deployment). For detailed configuration information, see [docs/database-fallback.md](docs/database-fallback.md).
 
 Check the health of the application at:
 

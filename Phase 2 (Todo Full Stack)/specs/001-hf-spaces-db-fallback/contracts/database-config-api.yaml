@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: Database Configuration API
+  description: API for managing database configuration and fallback status
+  version: 1.0.0
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Returns the health status of the application and database connection
+      responses:
+        '200':
+          description: Application is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  database_status:
+                    type: string
+                    description: Current database connection status
+                  database_type:
+                    type: string
+                    description: Type of database currently connected (postgresql, sqlite, etc.)
+                  fallback_active:
+                    type: boolean
+                    description: Whether fallback mode is currently active
+        '503':
+          description: Service is unhealthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [unhealthy]
+                  error:
+                    type: string
+                    description: Error message explaining the health issue
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /config/database:
+    get:
+      summary: Get database configuration
+      description: Returns the current database configuration and connection status
+      responses:
+        '200':
+          description: Current database configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  primary_url_present:
+                    type: boolean
+                    description: Whether a primary database URL is configured
+                  current_driver:
+                    type: string
+                    description: The database driver currently in use
+                  fallback_enabled:
+                    type: boolean
+                    description: Whether fallback mechanism is enabled
+                  connection_state:
+                    type: string
+                    description: Current connection state
+                  validation_errors:
+                    type: array
+                    items:
+                      type: string
+                    description: Any validation errors in the configuration
+        '500':
+          description: Configuration error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                  type: string
+                  description: Error message explaining the configuration issue
+
+components:
+  schemas:
+    DatabaseHealth:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy]
+        database_status:
+          type: string
+          description: Current database connection status
+        database_type:
+          type: string
+          description: Type of database currently connected
+        fallback_active:
+          type: boolean
+          description: Whether fallback mode is active
+        timestamp:
+          type: string
+          format: date-time
+
+    DatabaseConfig:
+      type: object
+      properties:
+        primary_url_present:
+          type: boolean
+          description: Whether a primary database URL is configured
+        current_driver:
+          type: string
+          description: The database driver currently in use
+        fallback_enabled:
+          type: boolean
+          description: Whether fallback mechanism is enabled
+        connection_state:
+          type: string
+          description: Current connection state
+        validation_errors:
+          type: array
+          items:
+            type: string
+            description: Validation errors in the configuration

@@ -20,7 +20,8 @@
       "Bash(dir \"specs/002-color-refinement/contracts/\" /B)",
       "Bash(.specify/scripts/powershell/setup-plan.ps1 -Json)",
       "Bash(.specify/scripts/powershell/update-agent-context.ps1 -AgentType claude)",
-      "Bash(type \"D:\\\\Hackathon II \\(Todo App\\)\\\\specs\\\\001-frontend-fixes\\\\plan.md\")"
+      "Bash(type \"D:\\\\Hackathon II \\(Todo App\\)\\\\specs\\\\001-frontend-fixes\\\\plan.md\")",
+      "Bash(powershell -Command \"& {&''.specify/scripts/powershell/check-prerequisites.ps1'' -Json -RequireTasks -IncludeTasks}\")"
     ]
   }
 }

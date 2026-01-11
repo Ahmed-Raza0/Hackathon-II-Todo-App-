@@ -77,11 +77,12 @@ def get_task(
 @router.put("/tasks/{task_id}", response_model=TaskResponse)
 def update_task(
     request: Request,
-    task_id: str = Path(..., description="The ID of the task to update"),
     task_data: UpdateTaskRequest,
+    task_id: str = Path(..., description="The ID of the task to update"),
     user_id: str = Path(..., description="The ID of the user"),
     session: Session = Depends(get_session)
 ):
+
     """
     Update the title and/or description of a task for the authenticated user.
     """

@@ -11,10 +11,10 @@ export async function apiClient<T>(
   // Get token from localStorage (will be managed by Better Auth)
   const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
 
-  const headers: HeadersInit = {
+  const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
-  };
+  } as Record<string, string>;
 
   // Attach Authorization header if token exists
   if (token) {
