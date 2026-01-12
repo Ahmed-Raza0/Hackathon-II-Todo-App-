@@ -1,0 +1,30 @@
+{
+  "name": "todo-app-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack Todo application with authentication",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && uvicorn main:app --reload --port 8000",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build --prefix frontend",
+    "start": "node backend/server.js",
+    "test": "jest"
+  },
+  "keywords": ["todo", "fullstack", "authentication"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "concurrently": "^8.2.2",
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "nodemon": "^3.0.2",
+    "typescript": "^5.3.3"
+  }
+}
