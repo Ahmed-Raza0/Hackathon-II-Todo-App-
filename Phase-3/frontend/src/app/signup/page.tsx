@@ -27,7 +27,7 @@ export default function SignupPage() {
 
     try {
       const response: any = await authAPI.register({ email, password, name });
-      const token = response.data?.access_token || response.access_token;
+      const token = response.data?.token || response.token;
 
       // Store the token
       localStorage.setItem('access_token', token);
@@ -35,8 +35,9 @@ export default function SignupPage() {
       // Redirect to dashboard
       router.push('/');
       window.location.reload(); // Force refresh to update header state
-    } catch (err) {
-      setError('Failed to create account. Please try again.');
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.error || 'Failed to create account. Please try again.';
+      setError(errorMessage);
       console.error('Signup error:', err);
     } finally {
       setLoading(false);

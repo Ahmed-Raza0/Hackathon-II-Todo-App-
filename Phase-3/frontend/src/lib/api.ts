@@ -44,7 +44,7 @@ export const authAPI = {
     api.post('/api/auth/login', credentials),
 
   register: (userData: { email: string; password: string; name?: string }) =>
-    api.post('/api/auth/register', userData),
+    api.post('/api/auth/signup', userData),
 
   logout: () => {
     localStorage.removeItem('access_token');

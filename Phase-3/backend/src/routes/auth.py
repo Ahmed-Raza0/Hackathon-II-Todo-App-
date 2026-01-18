@@ -50,16 +50,28 @@ def get_current_user(
     return user
 
 
-@router.post("/auth/register", response_model=UserPublic)
-def register(user_create: UserCreate, session: Session = Depends(get_session)):
+@router.post("/auth/signup")
+def signup(user_create: UserCreate, session: Session = Depends(get_session)):
     """
-    Register a new user
+    Create a new user account
     """
     try:
         db_user = create_user(session, user_create)
-        return db_user
+        # Return user and token as specified in the contract
+        access_token = create_access_token(
+            data={"sub": str(db_user.id)},
+            expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        )
+        return {
+            "user": {
+                "id": str(db_user.id),
+                "email": db_user.email
+            },
+            "token": access_token
+        }
     except Exception as e:
-        raise e
+        # Return structured error response as specified
+        return {"error": str(e) if str(e) != "" else "Failed to create account", "code": "AUTH_SIGNUP_FAILED"}
 
 
 @router.post("/auth/login")
