@@ -1,255 +1,70 @@
-<!-- SYNC IMPACT REPORT
-Version change: N/A (initial version) → 1.0.0
-Modified principles: N/A
-Added sections: Phase II and Phase III constitutions
-Removed sections: None
-Templates requiring updates:
-  - .specify/templates/plan-template.md ✅ updated
-  - .specify/templates/spec-template.md ✅ updated
-  - .specify/templates/tasks-template.md ✅ updated
-  - .specify/templates/commands/*.md ⚠ pending
-Follow-up TODOs: None
+<!--
+Sync Impact Report:
+- Version change: 1.0.0 → 1.1.0
+- Added sections: Security Requirements, Development Workflow
+- Modified principles: All 6 principles updated with specific content from user input
+- Templates requiring updates: ⚠ pending review of .specify/templates/plan-template.md, .specify/templates/spec-template.md, .specify/templates/tasks-template.md
+- Follow-up TODOs: None
 -->
+# Hackathon II Todo App Constitution
 
-# Todo App Constitution
+## Core Principles
 
-This Constitution governs **Spec-Driven Development (SDD)** for the Todo application during **Phase II (Full‑Stack Web App)** and **Phase III (AI‑Powered Chatbot)**. It defines non‑negotiable rules, architectural principles, quality gates, and enforcement mechanisms that all specs and generated implementations must follow.
+### I. Spec-Driven Enforcement
+All features must be implemented only after reading the relevant spec in `/specs`; No code may be written outside the plan defined in `sp.plan.md`; Tasks in `sp.tasks.md` must be completed in order; Deviations from specs must be documented and approved.
 
----
+### II. Security & User Isolation
+JWT Mandatory: All API requests require JWT in `Authorization: Bearer <token>` header; User Isolation: All database queries must filter by `user_id` from verified JWT; Unauthorized Access: Requests without valid JWT must return `401 Unauthorized`; No Inline Secrets: All secrets must be stored in `.env` files or environment variables.
 
-## Phase II – Full‑Stack Web Application Constitution
+### III. Stateless Architecture
+No server-side session state; all state persisted in database; Each chat request is independent; conversation persisted in DB; Backend never stores session data in memory.
 
-### 1. Purpose & Scope
+### IV. Layered Responsibility
+Frontend only handles UI and API requests; backend handles all business logic and DB operations; No Direct Frontend Database Access: Frontend cannot query database directly.
 
-Phase II transforms the in‑memory console app into a **secure, multi‑user, persistent web application**. The constitution ensures consistency across frontend (Next.js), backend (FastAPI), database (Neon PostgreSQL), and authentication (Better Auth + JWT).
+### V. Technology Stack Compliance
+Only use Neon Serverless PostgreSQL; Only SQLModel for all DB operations; All routes under `/api/`; Use RESTful compliance with proper HTTPException codes.
 
-**In Scope**
+### VI. Forbidden Practices
+Do not access database directly from frontend; Do not skip JWT verification; Do not allow one user to see or modify another user's data; Do not hard-code secrets; Do not implement features before reading and referencing the relevant specs; Do not use any database or ORM other than Neon PostgreSQL + SQLModel; Do not store state in backend memory (stateless enforcement).
 
-* Task CRUD (Add, View, Update, Delete, Complete)
-* RESTful API
-* Persistent storage
-* Authentication & authorization
-* Responsive UI
+## Security Requirements
 
-**Out of Scope**
+Authentication Rules:
+- Better Auth Issued JWT: Frontend handles login/signup; JWT is sent to backend.
+- Backend Verification Only: Backend uses `python-jose` or equivalent to verify JWT; frontend tokens are not trusted for access control.
+- User ID Enforcement: The `user_id` in URL must always match the decoded JWT `user_id`.
+- Protected Routes: All endpoints under `/api/` are protected unless explicitly stated as public (e.g., login/signup).
 
-* AI chatbot logic
-* Kubernetes or cloud deployment
-* Advanced task intelligence (recurring, reminders)
+Database Rules:
+- Database Engine: Only use Neon Serverless PostgreSQL.
+- ORM: Only SQLModel for all DB operations.
+- Schema Enforcement: `users` table managed by Better Auth; `tasks` table: `id`, `user_id`, `title`, `description`, `completed`, `created_at`, `updated_at`; `conversations` and `messages` for Phase III AI chatbot.
+- Indexes: Always index `tasks.user_id` and `tasks.completed` for filtering.
+- No Direct Frontend Access: Frontend cannot query database directly.
 
----
+## Development Workflow
 
-### 2. Non‑Negotiable Principles
+API Rules:
+- All routes under `/api/`.
+- RESTful Compliance: Use GET, POST, PUT, DELETE, PATCH correctly.
+- Request/Response Validation: Use Pydantic models for input/output validation.
+- Error Handling: Return proper HTTPException codes (e.g., 404 for not found, 401 for unauthorized).
+- Filtering by Authenticated User: Backend must enforce user ownership on every endpoint.
 
-1. **Spec First, Code Second**
-   No code is written or regenerated unless a corresponding spec exists and is approved.
-2. **User Isolation by Default**
-   All data access is scoped to the authenticated user.
-3. **Stateless Backend**
-   FastAPI must not store session state; authentication relies solely on JWT.
-4. **Single Source of Truth**
-   Database is the authoritative state; frontend caches are ephemeral.
-5. **Monorepo Consistency**
-   Frontend and backend live in one repo with shared specs.
+AI & MCP Rules (Phase III):
+- Stateless Requests: Each chat request is independent; conversation persisted in DB.
+- Agent Must Use MCP Tools: All task operations go through MCP tools (add_task, list_tasks, complete_task, update_task, delete_task).
+- No State Leakage: Backend never stores session data in memory.
+- Conversation History: All messages stored in DB (`messages`, `conversations`) and fetched per request.
+- Agent Behavior: Confirm every user action, handle errors gracefully, enforce task ownership.
 
----
+## Governance
 
-### 3. Architecture Mandates
+Amendment Procedure: Changes to this constitution must be documented with clear rationale and reviewed by project maintainers. Any architectural decision that significantly impacts security, data integrity, or system architecture must be recorded in an ADR.
 
-#### 3.1 Frontend (Next.js)
+Versioning Policy: MAJOR for backward incompatible governance/principle removals; MINOR for new principles or material expansions; PATCH for clarifications and typo fixes.
 
-* App Router (Server Components by default)
-* Client Components only for interactivity
-* Central API client (`/lib/api.ts`)
-* Tailwind CSS only (no inline styles)
+Compliance Review: All pull requests must be validated against this constitution. Automated checks should verify that code changes comply with the stated principles, particularly around security, authentication, and data isolation requirements.
 
-#### 3.2 Backend (FastAPI)
-
-* All routes under `/api/`
-* Pydantic models for all I/O
-* SQLModel for ORM
-* Environment‑based configuration
-
-#### 3.3 Authentication
-
-* Better Auth issues **JWT tokens**
-* JWT included in `Authorization: Bearer <token>`
-* Shared secret via `BETTER_AUTH_SECRET`
-
----
-
-### 4. Data Constitution
-
-#### 4.1 Core Entities
-
-* **User** (managed by Better Auth)
-* **Task** (owned by a user)
-
-#### 4.2 Task Invariants
-
-* `title` is required (1–200 chars)
-* `completed` defaults to false
-* `user_id` is immutable once set
-* No cross‑user access under any circumstance
-
----
-
-### 5. API Behavior Rules
-
-* Requests without valid JWT → `401 Unauthorized`
-* User ID in token **must match** URL user scope
-* Errors return structured JSON
-* CRUD operations are idempotent where applicable
-
----
-
-### 6. Quality Gates (Phase II)
-
-* All endpoints covered by specs
-* Manual CRUD verification via UI
-* Auth enforced on every route
-* Database migrations reproducible
-
----
-
-### 7. Phase II Exit Criteria
-
-Phase II is complete when:
-
-* A user can sign up and sign in
-* Tasks persist across reloads
-* One user cannot access another user's tasks
-* All behavior matches approved specs
-
----
-
-## Phase III – AI‑Powered Todo Chatbot Constitution
-
-### 1. Purpose & Scope
-
-Phase III introduces a **natural‑language chatbot** that manages todos using AI agents and MCP tools, without breaking Phase II guarantees.
-
-**In Scope**
-
-* Conversational task management
-* MCP server & tools
-* Conversation persistence
-* Stateless AI request cycle
-
-**Out of Scope**
-
-* Kubernetes deployment
-* Event‑driven Kafka features
-* Voice input
-
----
-
-### 2. Non‑Negotiable Principles
-
-1. **Tools, Not Logic**
-   AI agents may not directly manipulate the database; they must use MCP tools.
-2. **Stateless Server**
-   Each chat request is independent; state is reconstructed from DB.
-3. **Deterministic Tool Contracts**
-   MCP tools have strict schemas and predictable outputs.
-4. **Human‑Readable Confirmation**
-   Every action must be confirmed in natural language.
-5. **No Spec Drift**
-   Chatbot behavior must match existing task rules from Phase II.
-
----
-
-### 3. Architecture Mandates
-
-#### 3.1 Chat Flow
-
-1. Receive user message
-2. Load conversation history from DB
-3. Run OpenAI Agent with MCP tools
-4. Persist messages and tool calls
-5. Return assistant response
-
-#### 3.2 Components
-
-* **Frontend**: OpenAI ChatKit UI
-* **Backend**: FastAPI chat endpoint
-* **AI Layer**: OpenAI Agents SDK
-* **Integration**: Official MCP SDK
-
----
-
-### 4. MCP Tool Constitution
-
-#### Required Tools
-
-* `add_task`
-* `list_tasks`
-* `update_task`
-* `complete_task`
-* `delete_task`
-
-#### Tool Rules
-
-* Must include `user_id`
-* Must validate task ownership
-* Must return structured JSON
-* Must never expose raw DB errors
-
----
-
-### 5. Agent Behavior Rules
-
-* Infer intent from natural language
-* Choose correct MCP tool(s)
-* Chain tools when required (e.g., list → delete)
-* Handle missing tasks gracefully
-* Never hallucinate task IDs
-
----
-
-### 6. Conversation & Data Rules
-
-* Conversations are persisted
-* Messages are immutable after creation
-* Server memory holds no chat context
-* Restarting server does not lose chat history
-
----
-
-### 7. Security Constitution
-
-* JWT authentication required for chat endpoint
-* Agent only sees user‑scoped data
-* MCP tools enforce ownership checks
-
----
-
-### 8. Quality Gates (Phase III)
-
-* Natural language CRUD verified
-* Tool calls logged and auditable
-* Conversations resumable after restart
-* No direct DB access by agent
-
----
-
-### 9. Phase III Exit Criteria
-
-Phase III is complete when:
-
-* Users manage tasks via natural language
-* AI reliably maps intent to MCP tools
-* Conversation state persists correctly
-* All actions respect Phase II rules
-
----
-
-## Constitutional Supremacy Clause
-
-If any generated code conflicts with this Constitution, **the Constitution prevails**. Specs must be updated and code regenerated until compliance is achieved.
-
----
-
-**End of Constitution – Phase II & Phase III**
-
-**Version**: 1.0.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-16
+**Version**: 1.1.0 | **Ratified**: 2026-01-19 | **Last Amended**: 2026-01-19
