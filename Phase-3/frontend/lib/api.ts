@@ -59,10 +59,12 @@ class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    };
+ const headers: HeadersInit & { Authorization?: string } = {
+  'Content-Type': 'application/json',
+  ...options.headers,
+};
+
+
 
     // Get the latest token
     const currentToken = this.getToken();
