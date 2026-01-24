@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(python -c \"import sys; sys.path.insert\\(0, ''.''\\); from main import app; print\\(''✅ Backend imports successful''\\)\")",
+      "Bash(ls:*)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh claude)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks)"
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 // API Client for making authenticated requests
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ahmed-raza-phase-3-backend.hf.space/api';
 
 class ApiClient {
   private token: string | null = null;
