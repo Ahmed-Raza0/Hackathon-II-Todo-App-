@@ -1,4 +1,171 @@
-# Claude Code Rules
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+This is a full-stack Todo Application built with Next.js 16+ (App Router) frontend and Python FastAPI backend, using SQLModel ORM with Neon Serverless PostgreSQL database. The project follows a monorepo architecture with Spec-Driven Development methodology using Spec-Kit Plus.
+
+## Architecture
+
+### Frontend (Next.js 16+ App Router)
+- **Framework**: Next.js 16.1.3 with App Router
+- **UI Components**: Radix UI primitives with Tailwind CSS
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **Authentication**: Better Auth (JWT-based)
+- **State Management**: React state and hooks
+- **Type Safety**: TypeScript
+- **Icons**: Lucide React
+- **Forms**: React Hook Form with Zod validation
+- **Data Visualization**: Recharts
+
+### Backend (Python FastAPI)
+- **Framework**: FastAPI
+- **ORM**: SQLModel (SQLAlchemy + Pydantic)
+- **Database**: Neon Serverless PostgreSQL
+- **Database Driver**: psycopg2
+- **Environment**: Python virtual environment
+
+### Project Structure
+```
+├── backend/
+│   ├── main.py          # FastAPI application entry point
+│   ├── database.py      # Database connection and engine setup
+│   └── .env            # Environment variables
+├── frontend/
+│   ├── app/            # Next.js App Router pages
+│   ├── components/     # Reusable React components
+│   ├── lib/           # Utility functions
+│   ├── hooks/         # Custom React hooks
+│   ├── public/        # Static assets
+│   ├── package.json   # Node.js dependencies
+│   ├── next.config.ts # Next.js configuration
+│   └── tsconfig.json  # TypeScript configuration
+├── specs/             # Specification-driven development artifacts
+├── history/           # Prompt History Records and ADRs
+├── .specify/          # Spec-Kit Plus configuration
+└── CLAUDE.md          # This file
+```
+
+## Development Commands
+
+### Frontend Development
+```bash
+# Install frontend dependencies
+cd frontend && npm install
+
+# Run frontend development server
+npm run dev
+
+# Build frontend for production
+npm run build
+
+# Run frontend in production mode
+npm run start
+
+# Lint frontend code
+npm run lint
+```
+
+### Backend Development
+```bash
+# Activate Python virtual environment
+cd backend && source venv/bin/activate  # Linux/Mac
+# or
+cd backend && venv\Scripts\activate     # Windows
+
+# Install Python dependencies (if needed)
+pip install fastapi uvicorn sqlmodel python-dotenv
+
+# Run backend development server
+uvicorn main:app --reload
+
+# Run backend with specific host and port
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### Environment Configuration
+- **Backend**: Configure `DATABASE_URL` in `backend/.env`
+- **Frontend**: Environment variables can be added to `frontend/.env.local`
+
+### Common Development Tasks
+```bash
+# Run backend and frontend simultaneously (using tmux/screen or separate terminals)
+# Terminal 1:
+cd backend && uvicorn main:app --reload
+
+# Terminal 2:
+cd frontend && npm run dev
+```
+
+## Tech Stack Details
+
+### Frontend Technologies
+- **Next.js 16.1.3**: React framework with App Router
+- **React 19.2.3**: UI library
+- **TypeScript**: Type safety
+- **Tailwind CSS**: Styling framework
+- **Better Auth**: Authentication library
+- **Radix UI**: Accessible component primitives
+- **Lucide React**: Icon library
+- **React Hook Form**: Form management
+- **Zod**: Schema validation
+- **Recharts**: Data visualization
+
+### Backend Technologies
+- **FastAPI**: Modern Python web framework
+- **SQLModel**: SQL database library combining SQLAlchemy and Pydantic
+- **PostgreSQL**: Relational database (Neon Serverless)
+- **Pydantic**: Data validation and settings management
+- **python-dotenv**: Environment variable management
+
+## API Endpoints
+- **Backend API**: `http://localhost:8000` (default)
+- **Frontend App**: `http://localhost:3000` (default)
+- **Health Check**: `GET /` on backend returns service status
+
+## Testing Guidelines
+- Frontend: Jest, React Testing Library (to be implemented)
+- Backend: Pytest (to be implemented)
+- Integration: End-to-end tests (to be implemented)
+
+## Deployment
+- **Frontend**: Vercel (recommended) or any static hosting
+- **Backend**: Any Python WSGI/ASGI compatible hosting
+- **Database**: Neon Serverless PostgreSQL
+
+## Spec-Driven Development Workflow
+
+This project uses Spec-Driven Development (SDD) methodology:
+
+1. **Specification**: Define requirements in `specs/<feature>/spec.md`
+2. **Planning**: Create architecture plan in `specs/<feature>/plan.md`
+3. **Tasks**: Generate testable tasks in `specs/<feature>/tasks.md`
+4. **Implementation**: Follow tasks to implement features
+5. **History**: Maintain Prompt History Records in `history/prompts/`
+6. **Architecture Decisions**: Document significant decisions in `history/adr/`
+
+## Key Files and Directories
+
+- `.specify/memory/constitution.md`: Project principles
+- `specs/<feature>/spec.md`: Feature specifications
+- `specs/<feature>/plan.md`: Architecture plans
+- `specs/<feature>/tasks.md`: Implementation tasks
+- `history/prompts/`: Prompt History Records
+- `history/adr/`: Architecture Decision Records
+
+## Special Considerations
+
+1. **Authentication**: Using Better Auth for JWT-based authentication
+2. **Database**: Neon Serverless PostgreSQL with SQLModel ORM
+3. **Type Safety**: Full TypeScript support on frontend
+4. **Component Library**: Using Radix UI for accessible components
+5. **Environment Variables**: Keep sensitive data in .env files
+6. **Monorepo**: Both frontend and backend in single repository
+
+---
+
+## Original Claude Code Rules
 
 This file is generated during init for the selected agent.
 
@@ -113,7 +280,7 @@ You are not expected to solve every problem autonomously. You MUST invoke the us
 1.  **Ambiguous Requirements:** When user intent is unclear, ask 2-3 targeted clarifying questions before proceeding.
 2.  **Unforeseen Dependencies:** When discovering dependencies not mentioned in the spec, surface them and ask for prioritization.
 3.  **Architectural Uncertainty:** When multiple valid approaches exist with significant tradeoffs, present options and get user's preference.
-4.  **Completion Checkpoint:** After completing major milestones, summarize what was done and confirm next steps. 
+4.  **Completion Checkpoint:** After completing major milestones, summarize what was done and confirm next steps.
 
 ## Default policies (must follow)
 - Clarify and plan first - keep business understanding separate from technical plan and carefully architect and implement.
