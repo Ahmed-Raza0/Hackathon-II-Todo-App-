@@ -1,0 +1,4 @@
+name: hackathon-todo
+version: "1.0"
+structure:
+  specs_dir: specs

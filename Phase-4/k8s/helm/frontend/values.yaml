@@ -1,0 +1,26 @@
+# Default values for frontend
+replicaCount: 2
+
+image:
+  repository: todo-frontend
+  tag: phase4
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 3000
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+env:
+  NEXT_PUBLIC_API_URL: "http://backend-service.todo-phase4.svc.cluster.local:8000"
+  NEXT_PUBLIC_APP_ENV: "production"
+
+config:
+  # Configuration values for the frontend

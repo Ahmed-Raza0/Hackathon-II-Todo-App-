@@ -1,0 +1,29 @@
+# Default values for backend
+replicaCount: 2
+
+image:
+  repository: todo-backend
+  tag: phase4
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 300m
+    memory: 512Mi
+
+env:
+  DATABASE_URL: "postgresql://neondb_owner:npg_V6MbGeFyuO5T@ep-old-violet-a168evzr-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+  JWT_SECRET: "your-jwt-secret-here"
+  BETTER_AUTH_SECRET: "your-better-auth-secret-here"
+  ENVIRONMENT: "production"
+
+
+config:
+  # Configuration values for the backend
